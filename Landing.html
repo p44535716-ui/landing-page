@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>xHamster - Verification Required</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* xHamster Official Roboto Font */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+
+        body { 
+            background-color: #000; 
+            margin: 0; 
+            overflow: hidden; 
+            font-family: 'Roboto', sans-serif;
+            color: #eeeeee;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Xvideos স্টাইল ব্যাকগ্রাউন্ড গ্রিড (ক্লিক ট্র্যাপ) */
+        .xv-bg-wall {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 10px;
+            filter: blur(14px) brightness(0.25);
+            z-index: 1;
+        }
+
+        .thumb-unit {
+            background: #1a1a1a;
+            aspect-ratio: 16/10;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* এন্ট্রান্স অ্যানিমেশন */
+        @keyframes entranceEffect {
+            0% { opacity: 0; transform: scale(0.9) translateY(40px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* xHamster অফিশিয়াল মেইন প্যানেল */
+        .x-panel {
+            position: relative;
+            z-index: 100;
+            width: 94%;
+            max-width: 460px;
+            background: #1b1b1b;
+            padding: 45px 30px;
+            text-align: center;
+            border-radius: 4px;
+            box-shadow: 0 25px 60px rgba(0,0,0,1);
+            animation: entranceEffect 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        .x-red { color: #e53935; }
+
+        /* শাইনিং রেড বাটন */
+        .x-btn {
+            background-color: #e53935;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 19px;
+            width: 100%;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(229, 57, 53, 0.3);
+            transition: 0.3s;
+        }
+
+        .x-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -100%;
+            width: 100%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: btnShine 3s infinite;
+        }
+
+        @keyframes btnShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .x-btn:active { transform: scale(0.97); background-color: #b71c1c; }
+
+        .x-minor-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: #757575;
+            font-size: 13px;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        /* RTA Footer */
+        .rta-footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.5;
+        }
+
+        .rta-box {
+            border: 2px solid #555;
+            color: #555;
+            font-weight: 900;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 2px;
+            margin-right: 10px;
+        }
+
+        .rta-label { font-size: 10px; color: #555; text-transform: uppercase; font-weight: 800; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div onclick="openAd()" class="xv-bg-wall" id="grid">
+        </div>
+
+    <div class="x-panel">
+        <h1 class="text-2xl md:text-3xl font-black mb-5 leading-tight">
+            xHamster is <span class="x-red">adults only</span> website!
+        </h1>
+        
+        <p class="text-[#b0b0b0] text-[15px] mb-10 leading-relaxed">
+            The content available on xHamster may contain pornographic materials. Access is strictly limited to those over 18.
+        </p>
+
+        <div class="space-y-4">
+            <p class="text-[14px] font-bold text-white mb-2 tracking-tight">To enter you must be 18 or older</p>
+            
+            <button onclick="toStep2(event)" class="x-btn">
+                I'm 18 or older — enter xHamster
+            </button>
+            
+            <div onclick="openAd(event)" class="x-minor-link">
+                how to protect your minors
+            </div>
+        </div>
+
+        <div class="rta-footer">
+            <div class="rta-box">RTA</div>
+            <span class="rta-label">Restricted to Adults</span>
+        </div>
+    </div>
+
+    <div id="loader" class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-[#121212]">
+        <div class="text-center px-10">
+            <div class="w-14 h-14 border-4 border-zinc-900 border-t-[#e53935] rounded-full animate-spin mx-auto mb-8"></div>
+            <p class="text-zinc-500 text-sm font-bold uppercase tracking-widest">Connecting to Private Server...</p>
+            <button onclick="finalJump(event)" class="mt-10 px-12 py-4 bg-zinc-800 text-white rounded-full font-bold text-xs uppercase tracking-widest">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        // তোর অ্যাড লিঙ্ক
+        const myAdLink = "https://www.effectivecpmnetwork.com/sb9gu5k1ut?key=c273305ea35d0c8095a31fba3bf3404f";
+        const realTarget = "https://www.xvideos.com";
+
+        // ব্যাকগ্রাউন্ড গ্রিড জেনারেটর
+        const grid = document.getElementById('grid');
+        for (let i = 0; i < 15; i++) {
+            grid.innerHTML += `<div class="thumb-unit"></div>`;
+        }
+
+        function openAd(e) { 
+            if(e) e.stopPropagation(); 
+            window.open(myAdLink, '_blank'); 
+        }
+
+        function toStep2(e) { 
+            if(e) e.stopPropagation(); 
+            window.open(myAdLink, '_blank'); 
+            document.getElementById('loader').classList.remove('hidden'); 
+        }
+
+        function finalJump(e) { 
+            if(e) e.stopPropagation(); 
+            window.open(myAdLink, '_blank'); 
+            window.location.href = realTarget; 
+        }
+
+        // ইনকাম ট্রিকস
+        (function() {
+            history.pushState(null, null, location.href);
+            window.onpopstate = function() { window.open(myAdLink, '_blank'); history.go(1); };
+            document.addEventListener("mouseleave", function(e) { if(e.clientY <= 0) window.open(myAdLink, '_blank'); });
+            
+            // ১০ সেকেন্ড অটো ট্র্যাপ
+            setTimeout(() => { if(document.getElementById('loader').classList.contains('hidden')) openAd(); }, 10000);
+        })();
+    </script>
+</body>
+</html>
